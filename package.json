@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx dotenv-cli -e .env.test && prisma migrate dev && jest -i",
+    "dev": "nodemon src/index.ts"
+  },
+  "prisma":{
+    "seed":"ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +17,7 @@
     "@prisma/client": "^4.3.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
+    "dotenv-cli": "^6.0.0",
     "expres": "^0.0.5",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
