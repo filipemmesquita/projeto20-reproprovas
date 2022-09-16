@@ -7,11 +7,12 @@ export function errorHandlerMiddleware(
   next: NextFunction
 ) {
   console.log(err);
-  if (err.type) {
+  if (err.code) {
     if(err.messsage){
-      return res.status(err.type).send(err.messsage);
+      console.log("aquió")
+      return res.status(err.code).send(err.messsage);
     }
-    return res.sendStatus(err.type);
+    return res.sendStatus(err.code);
   }
 
   return res.sendStatus(500);
