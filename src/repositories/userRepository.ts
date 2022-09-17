@@ -2,7 +2,7 @@ import { prisma } from "../database";
 import { CreateUserData, UserData } from "../types/userTypes";
 
 export async function insert(userData:CreateUserData){
-    await prisma.users.create({
+    return await prisma.users.create({
         data:userData
     });
 }

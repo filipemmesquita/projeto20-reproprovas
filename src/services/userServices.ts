@@ -13,7 +13,7 @@ export async function insertUser(body:CreateUserData) {
         email:body.email,
         password:hashedPassword
     };
-    await userRepository.insert(userData)
+    return await userRepository.insert(userData)
 }
 
 export async function signIn(body:CreateUserData) {
