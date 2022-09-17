@@ -1,5 +1,5 @@
 import { CreateUserData } from "../types/userTypes";
-import * as userRepository from '../05 repositories/userRepository';
+import * as userRepository from '../repositories/userRepository';
 //import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
