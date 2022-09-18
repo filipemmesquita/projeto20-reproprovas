@@ -5,12 +5,12 @@ import userFactory from './factories/userFactory';
 import jwt from 'jsonwebtoken';
 
 beforeEach(async () => {
-    await prisma.$executeRaw`TRUNCATE TABLE users`;
-  });
+  await prisma.$executeRaw`TRUNCATE TABLE users`;
+});
   
-  afterAll(async () => {
-    await prisma.$disconnect();
-  });
+afterAll(async () => {
+  await prisma.$disconnect();
+});
 describe('Testing POST /users/new ',()=>{
   it('Should return 201 if a new user is correctly registered', async () => {
     const user = await userFactory();
