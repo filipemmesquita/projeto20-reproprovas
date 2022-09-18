@@ -5,3 +5,9 @@ export async function createTest(req:Request,res:Response){
     const createdTest=await testServices.insertTest(req.body);
     return res.sendStatus(201);
 }
+export async function getAllByDiscipline(req:Request,res:Response){
+
+    const tests1=await testServices.getByDiscipline();
+
+    return res.status(200).send(tests1);
+}

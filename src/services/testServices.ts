@@ -24,3 +24,43 @@ export async function insertTest(test:UnprocessedTestData) {
     }
     return await testRepository.insert(processedTest)
 }
+export async function getByDiscipline() {
+    const tests1=await testRepository.getAllByDisciplineId();
+   
+    const responseObject:any={
+        terms:tests1
+    }
+
+    for(const term of responseObject.terms){
+        for(const discipline of term.disciplines){
+            for(const teacherDiscipline of discipline.teachers){
+                const hash:any={};
+                for(const test of teacherDiscipline.tests){
+                    const newTest:any={...test};
+                   
+                    if(!hash[test.category.name]){
+                        hash[test.category.name]=[];
+                    }
+                    delete newTest.category;
+                    hash[test.category.name].push(newTest);
+                }
+                delete teacherDiscipline.tests;
+                teacherDiscipline.category=[];
+                for (const [key, value] of Object.entries(hash)) {
+                    const category={
+                        name:key,
+                        tests:value,
+                    }
+                    teacherDiscipline.category.push(category)
+                }
+            }
+        }
+    }
+    return tests1
+}
+export async function getByDiscipline2(disciplineId:number) {
+    const tests1=await testRepository.figuringThisOut();
+
+
+    return tests1
+}
