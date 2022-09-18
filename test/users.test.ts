@@ -43,6 +43,6 @@ describe('Testing POST /users/login',()=>{
 
     const userData=jwt.verify(token,secretKey)
     expect(userData).toMatchObject(createdUser);
-  })
+  });
 })
   

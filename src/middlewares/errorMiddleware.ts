@@ -6,14 +6,12 @@ export function errorHandlerMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  console.log(err);
   if (err.code) {
-    if(err.messsage){
-      console.log("aquió")
-      return res.status(err.code).send(err.messsage);
+    if(err.message){
+      return res.status(err.code).send(err.message);
     }
     return res.sendStatus(err.code);
   }
-
+  console.log(err);
   return res.sendStatus(500);
 }
