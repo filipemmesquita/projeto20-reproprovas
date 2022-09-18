@@ -33,9 +33,11 @@ export async function getByDiscipline() {
 
     for(const term of responseObject.terms){
         for(const discipline of term.disciplines){
-            for(const teacherDiscipline of discipline.teachers){
-                const hash:any={};
+            const hash:any={};
+            for(const teacherDiscipline of discipline.teachersDisciplines){
                 for(const test of teacherDiscipline.tests){
+                    test.teacher=test.teacherDiscipline.teacher;
+                    delete test.teacherDiscipline
                     const newTest:any={...test};
                    
                     if(!hash[test.category.name]){
@@ -45,22 +47,19 @@ export async function getByDiscipline() {
                     hash[test.category.name].push(newTest);
                 }
                 delete teacherDiscipline.tests;
-                teacherDiscipline.category=[];
-                for (const [key, value] of Object.entries(hash)) {
-                    const category={
-                        name:key,
-                        tests:value,
-                    }
-                    teacherDiscipline.category.push(category)
-                }
             }
+            if(!discipline.category){
+                discipline.category=[];
+            }
+            for (const [key, value] of Object.entries(hash)) {
+                const category={
+                    name:key,
+                    tests:value,
+                }
+                discipline.category.push(category)
+            }
+            delete discipline.teachersDisciplines;
         }
     }
-    return tests1
-}
-export async function getByDiscipline2(disciplineId:number) {
-    const tests1=await testRepository.figuringThisOut();
-
-
-    return tests1
+    return responseObject;
 }

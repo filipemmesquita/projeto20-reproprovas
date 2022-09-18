@@ -16,15 +16,9 @@ export async function getAllByDisciplineId(){
                 select:{
                     id:true,
                     name:true,
-                    teachers:{
+                    teachersDisciplines:{
                         select:{
                             id:true,
-                            teacher:{
-                                select:{
-                                    id:true,
-                                    name:true,
-                                }
-                            },
                             tests:{
                                 select:{
                                     id:true,
@@ -34,6 +28,16 @@ export async function getAllByDisciplineId(){
                                         select:{
                                             id:true,
                                             name:true,
+                                        }
+                                    },
+                                    teacherDiscipline:{
+                                        select:{
+                                            teacher:{
+                                                select:{
+                                                    id:true,
+                                                    name:true,
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -46,44 +50,44 @@ export async function getAllByDisciplineId(){
         }
     })
 }
-export async function figuringThisOut(){
-    return await prisma.tests.findMany({
-        select:{
-            id:true,
-            name:true,
-            pdfUrl:true,
-            category:{
-                select:{
-                    id:true,
-                    name:true,
-                }
-            },
-            teacherDiscipline:{
-                select:{
-                    id:true,
-                    teacher:{
-                        select:{
-                            id:true,
-                            name:true,
-                        }
-                    },
-                    discipline:{
-                        select:{
-                            id:true,
-                            name:true,
-                            term:{
-                                select:{
-                                    id:true,
-                                    number:true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    })
-}
+// export async function figuringThisOut(){
+//     return await prisma.tests.findMany({
+//         select:{
+//             id:true,
+//             name:true,
+//             pdfUrl:true,
+//             category:{
+//                 select:{
+//                     id:true,
+//                     name:true,
+//                 }
+//             },
+//             teacherDiscipline:{
+//                 select:{
+//                     id:true,
+//                     teacher:{
+//                         select:{
+//                             id:true,
+//                             name:true,
+//                         }
+//                     },
+//                     discipline:{
+//                         select:{
+//                             id:true,
+//                             name:true,
+//                             term:{
+//                                 select:{
+//                                     id:true,
+//                                     number:true
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     })
+// }
 /*
 term={
     id,
