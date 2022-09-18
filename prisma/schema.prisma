@@ -19,7 +19,7 @@ model Users {
 model Teachers{
   id          Int    @id @default(autoincrement())
   name        String @unique
-  disciplines TeachersDisciplines[]
+  teachersDisciplines TeachersDisciplines[]
   @@map("teachers")
 }
 model Terms {

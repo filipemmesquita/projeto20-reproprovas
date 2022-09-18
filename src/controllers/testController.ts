@@ -7,7 +7,13 @@ export async function createTest(req:Request,res:Response){
 }
 export async function getAllByDiscipline(req:Request,res:Response){
 
-    const tests1=await testServices.getByDiscipline();
+    const tests=await testServices.getAllByDiscipline();
 
-    return res.status(200).send(tests1);
+    return res.status(200).send(tests);
+}
+export async function getAllByTeacher(req:Request,res:Response){
+
+    const tests=await testServices.getAllByTeacher();
+
+    return res.status(200).send(tests);
 }

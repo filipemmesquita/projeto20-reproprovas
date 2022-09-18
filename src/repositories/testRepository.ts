@@ -7,7 +7,7 @@ export async function insert(testData:CreateTestData){
     });
 }
 
-export async function getAllByDisciplineId(){
+export async function getAllByDiscipline(){
     return await prisma.terms.findMany({
         select:{
             id:true,
@@ -45,6 +45,43 @@ export async function getAllByDisciplineId(){
                         }
                     }
 
+                }
+            }
+        }
+    })
+}
+export async function getAllByTeacher(){
+    return await prisma.teachers.findMany({
+        select:{
+            id:true,
+            name:true,
+            teachersDisciplines:{
+                select:{
+                    id:true,
+                    disciplineId:true,
+                    tests:{
+                        select:{
+                            id:true,
+                            name:true,
+                            pdfUrl:true,
+                            category:{
+                                select:{
+                                    id:true,
+                                    name:true,
+                                }
+                            },
+                            teacherDiscipline:{
+                                select:{
+                                    discipline:{
+                                        select:{
+                                            id:true,
+                                            name:true,
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

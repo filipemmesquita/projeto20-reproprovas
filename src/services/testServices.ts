@@ -24,11 +24,11 @@ export async function insertTest(test:UnprocessedTestData) {
     }
     return await testRepository.insert(processedTest)
 }
-export async function getByDiscipline() {
-    const tests1=await testRepository.getAllByDisciplineId();
+export async function getAllByDiscipline() {
+    const tests=await testRepository.getAllByDiscipline();
    
     const responseObject:any={
-        terms:tests1
+        terms:tests
     }
 
     for(const term of responseObject.terms){
@@ -61,5 +61,44 @@ export async function getByDiscipline() {
             delete discipline.teachersDisciplines;
         }
     }
+    return responseObject;
+}
+export async function getAllByTeacher() {
+    const tests=await testRepository.getAllByTeacher();
+   
+    const responseObject:any={
+        teachers:tests
+    }
+
+    
+    for(const teacher of responseObject.teachers){
+        const hash:any={};
+        for(const teacherDiscipline of teacher.teachersDisciplines){
+            for(const test of teacherDiscipline.tests){
+                test.discipline=test.teacherDiscipline.discipline;
+                delete test.teacherDiscipline
+                const newTest:any={...test};
+               
+                if(!hash[test.category.name]){
+                    hash[test.category.name]=[];
+                }
+                delete newTest.category;
+                hash[test.category.name].push(newTest);
+            }
+            delete teacherDiscipline.tests;
+        }
+        if(!teacher.category){
+            teacher.category=[];
+        }
+        for (const [key, value] of Object.entries(hash)) {
+            const category={
+                name:key,
+                tests:value,
+            }
+            teacher.category.push(category)
+        }
+        delete teacher.teachersDisciplines;
+    }
+    
     return responseObject;
 }
