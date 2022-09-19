@@ -1,10 +1,8 @@
 import { AllTestsByDiscipline, AllTestsByTeacher, CreateTestData, UnprocessedTestData } from "../types/testTypes";
 import * as testRepository from '../repositories/testRepository';
 import * as categoryRepository from '../repositories/categoryRepository'
-import * as disciplineRepository from '../repositories/disciplineRepository'
 import * as teachersDisciplinesRepository from '../repositories/teachersDisciplinesRepository'
 import { CategoryData } from "../types/categoryTypes";
-import { DisciplineData } from "../types/disciplineTypes";
 import { TeachersDisciplinesData } from "../types/teachersDisciplinesTypes";
 
 export async function insertTest(test:UnprocessedTestData) {
