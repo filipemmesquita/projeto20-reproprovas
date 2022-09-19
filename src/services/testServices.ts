@@ -57,6 +57,9 @@ export async function getAllByDiscipline() {
                 discipline.category.push(category)
             }
             delete discipline.teachersDisciplines;
+            if(discipline.category.length===0){
+                delete discipline.category
+            }
         }
     }
     const interfacedTests:AllTestsByDiscipline=responseObject;
@@ -97,6 +100,9 @@ export async function getAllByTeacher() {
             teacher.category.push(category)
         }
         delete teacher.teachersDisciplines;
+        if(teacher.category.length===0){
+            delete teacher.category;
+        }
     }
     const interfacedTests:AllTestsByTeacher=responseObject;
     return interfacedTests;
