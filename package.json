@@ -2,10 +2,10 @@
   "name": "projeto20-reproprovas",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
     "build":"tsc",
-    "start": "prisma migrate deploy && node dist/server.js",
+    "start": "prisma migrate deploy && node dist/src/server.js",
     "test": "dotenv -e .env.test prisma migrate dev && jest -i",
     "dev": "nodemon src/server.ts"
   },
