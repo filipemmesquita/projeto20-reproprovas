@@ -132,4 +132,38 @@ describe('Testing route GET/tests/byteacher',()=>{
         expect(result.status).toBe(401);
         expect(result.body.teachers).toBeUndefined();
     })
+    it('Should return registered test',async()=>{
+        const user=await userFactory();
+        await supertest(app).post('/users/new').send(user);
+        const {text:token} = await supertest(app).post('/users/login').send(user);
+        const test = await testFactory();
+        await supertest(app).
+        post('/tests/new').
+        set({Authorization:`Bearer ${token}`}).
+        send(test);
+        const result = await supertest(app).
+        get('/tests/byteacher').
+        set({Authorization:`Bearer ${token}`});
+        const desiredTest = {
+            teachers:expect.arrayContaining([
+                expect.objectContaining({
+                id:expect.any(Number),
+                name:expect.any(String),
+                category:[{
+                    name:expect.any(String),
+                    tests:expect.arrayContaining([
+                        expect.objectContaining({
+                        id:expect.any(Number),
+                        name:test.name,
+                        pdfUrl:test.pdfUrl,
+                        discipline:{
+                            id:test.disciplineId,
+                            name:expect.any(String)
+                        }
+                    })])
+                }]
+            })])    
+        }
+        expect(result.body).toMatchObject(desiredTest);
+    });
 })
