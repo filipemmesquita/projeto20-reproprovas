@@ -3,7 +3,7 @@ import app from '../src/index';
 import { prisma } from '../src/database';
 import testFactory from './factories/testFactory';
 import userFactory from './factories/userFactory';
-import { string } from 'joi';
+
 
 beforeEach(async()=>{
     await prisma.$executeRaw`TRUNCATE TABLE tests`;
@@ -57,7 +57,7 @@ describe('Testing POST /tests/new',()=>{
         set({Authorization:`Bearer ${token}`}).
         send(test);
         expect(result.status).toBe(404);
-    })
+    });
 });
 describe('Testing route GET/tests/bydiscipline',()=>{
     it('Should return 200 if request is successful and should have an object of arrays',async()=>{
@@ -75,7 +75,45 @@ describe('Testing route GET/tests/bydiscipline',()=>{
         
         expect(result.status).toBe(401);
         expect(result.body.terms).toBeUndefined();
-    })
+    });
+    it('Should return registered test',async()=>{
+        const user=await userFactory();
+        await supertest(app).post('/users/new').send(user);
+        const {text:token} = await supertest(app).post('/users/login').send(user);
+        const test = await testFactory();
+        await supertest(app).
+        post('/tests/new').
+        set({Authorization:`Bearer ${token}`}).
+        send(test);
+        const result = await supertest(app).
+        get('/tests/bydiscipline').
+        set({Authorization:`Bearer ${token}`});
+        const desiredTest = {
+            terms:expect.arrayContaining([
+                expect.objectContaining({
+                id:expect.any(Number),
+                number:expect.any(Number),
+                disciplines:expect.arrayContaining([
+                    expect.objectContaining({
+                    id:expect.any(Number),
+                    category:[{
+                        name:expect.any(String),
+                        tests:expect.arrayContaining([
+                            expect.objectContaining({
+                            id:expect.any(Number),
+                            name:test.name,
+                            pdfUrl:test.pdfUrl,
+                            teacher:{
+                                id:test.teacherId,
+                                name:expect.any(String)
+                            }
+                        })])
+                    }]
+                })])
+            })])
+        }
+        expect(result.body).toMatchObject(desiredTest);
+    });
 })
 describe('Testing route GET/tests/byteacher',()=>{
     it('Should return 200 if request is successful and should have an object of arrays',async()=>{
