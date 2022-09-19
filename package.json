@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "build":"tsc",
-    "start": "prisma migrate deploy && node dist/src/server.js",
+    "start": "prisma migrate deploy && prisma db seed && node dist/src/server.js",
     "test": "dotenv -e .env.test prisma migrate dev && jest -i",
     "dev": "nodemon src/server.ts"
   },
