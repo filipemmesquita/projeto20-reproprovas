@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "prisma migrate deploy && node dist/server.js",
     "test": "dotenv -e .env.test prisma migrate dev && jest -i",
     "dev": "nodemon src/server.ts"
   },
