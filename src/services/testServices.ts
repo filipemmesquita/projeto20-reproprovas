@@ -1,4 +1,4 @@
-import { CreateTestData, UnprocessedTestData } from "../types/testTypes";
+import { AllTestsByDiscipline, AllTestsByTeacher, CreateTestData, UnprocessedTestData } from "../types/testTypes";
 import * as testRepository from '../repositories/testRepository';
 import * as categoryRepository from '../repositories/categoryRepository'
 import * as disciplineRepository from '../repositories/disciplineRepository'
@@ -61,7 +61,8 @@ export async function getAllByDiscipline() {
             delete discipline.teachersDisciplines;
         }
     }
-    return responseObject;
+    const interfacedTests:AllTestsByDiscipline=responseObject;
+    return interfacedTests;
 }
 export async function getAllByTeacher() {
     const tests=await testRepository.getAllByTeacher();
@@ -99,6 +100,6 @@ export async function getAllByTeacher() {
         }
         delete teacher.teachersDisciplines;
     }
-    
-    return responseObject;
+    const interfacedTests:AllTestsByTeacher=responseObject;
+    return interfacedTests;
 }

@@ -10,3 +10,46 @@ export type UnprocessedTestData={
     teacherId:string,
     disciplineId:string,
 }
+export type Test=Omit<Tests,"categoryId"|"teacherDisciplineId">
+
+export interface AllTestsByDiscipline{
+    terms:[{
+        id:number,
+        number:number,
+        disciplines:[{
+            id:number,
+            name:string,
+            category:[{
+                name:string,
+                tests:[{
+                    id:number,
+                    name:string,
+                    pdfUrl:string,
+                    teacher:{
+                        id:number,
+                        name:string,
+                    }
+                }]
+            }]
+        }]
+    }]
+}
+export interface AllTestsByTeacher{
+    teachers:[{
+        id:number,
+        name:string,
+        category:[{
+            name:string,
+            tests:[{
+                id:number,
+                name:string,
+                pdfUrl:string,
+                discipline:{
+                    id:number,
+                    name:string
+                }
+            }]
+        }]
+    }]
+
+}

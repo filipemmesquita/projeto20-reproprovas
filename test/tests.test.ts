@@ -3,6 +3,7 @@ import app from '../src/index';
 import { prisma } from '../src/database';
 import testFactory from './factories/testFactory';
 import userFactory from './factories/userFactory';
+import { string } from 'joi';
 
 beforeEach(async()=>{
     await prisma.$executeRaw`TRUNCATE TABLE tests`;
@@ -58,3 +59,39 @@ describe('Testing POST /tests/new',()=>{
         expect(result.status).toBe(404);
     })
 });
+describe('Testing route GET/tests/bydiscipline',()=>{
+    it('Should return 200 if request is successful and should have an object of arrays',async()=>{
+        const user = await userFactory();
+        await supertest(app).post('/users/new').send(user);
+        const {text:token} = await supertest(app).post('/users/login').send(user);
+        const result = await supertest(app).
+        get('/tests/bydiscipline').
+        set({Authorization:`Bearer ${token}`});
+        expect(result.status).toBe(200); 
+        expect(result.body.terms).toEqual(expect.any(Array));
+    });
+    it('Should return 401 if user is not logged in',async()=>{
+        const result = await supertest(app).get('/tests/bydiscipline');
+        
+        expect(result.status).toBe(401);
+        expect(result.body.terms).toBeUndefined();
+    })
+})
+describe('Testing route GET/tests/byteacher',()=>{
+    it('Should return 200 if request is successful and should have an object of arrays',async()=>{
+        const user=await userFactory();
+        await supertest(app).post('/users/new').send(user);
+        const {text:token} = await supertest(app).post('/users/login').send(user);
+        const result = await supertest(app).
+        get('/tests/byteacher').
+        set({Authorization:`Bearer ${token}`});
+        expect(result.status).toBe(200);
+        expect(result.body.teachers).toEqual(expect.any(Array));
+    })
+    it('Should return 401 if user is not logged in',async()=>{
+        const result = await supertest(app).get('/tests/byteacher');
+
+        expect(result.status).toBe(401);
+        expect(result.body.teachers).toBeUndefined();
+    })
+})
